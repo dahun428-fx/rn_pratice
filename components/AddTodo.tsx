@@ -6,6 +6,7 @@ import {
   TouchableOpacity,
   Platform,
   TouchableNativeFeedback,
+  Keyboard,
 } from 'react-native';
 import React, {useState} from 'react';
 
@@ -22,6 +23,11 @@ const TodoButton = () => {
 export default function AddTodo() {
   const [text, setText] = useState('');
 
+  const onPress = () => {
+    setText('');
+    Keyboard.dismiss();
+  };
+
   const placeholderText = '할일을 입력하세요.';
 
   return (
@@ -31,17 +37,23 @@ export default function AddTodo() {
         style={styles.input}
         value={text}
         onChangeText={setText}
+        onSubmitEditing={onPress}
+        returnKeyType="done"
       />
-
-      {Platform.OS === 'ios' ? (
-        <TouchableNativeFeedback>
-          <TodoButton />
-        </TouchableNativeFeedback>
-      ) : (
-        <TouchableOpacity activeOpacity={0.5}>
-          <TodoButton />
-        </TouchableOpacity>
-      )}
+      {Platform.select({
+        ios: (
+          <TouchableOpacity onPress={onPress} activeOpacity={0.5}>
+            <TodoButton />
+          </TouchableOpacity>
+        ),
+        android: (
+          <TouchableNativeFeedback onPress={onPress}>
+            <View style={styles.circleWrapper}>
+              <TodoButton />
+            </View>
+          </TouchableNativeFeedback>
+        ),
+      })}
     </View>
   );
 }
@@ -68,6 +80,10 @@ const styles = StyleSheet.create({
     width: 48,
     height: 48,
     backgroundColor: '#26a69a',
+    borderRadius: 24,
+  },
+  circleWrapper: {
+    overflow: 'hidden',
     borderRadius: 24,
   },
 });

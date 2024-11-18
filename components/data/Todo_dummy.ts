@@ -1,0 +1,21 @@
+import {Todo} from '../types/types';
+
+const dummyData: Todo[] = [
+  {
+    id: 1,
+    text: '작업 환경 설정',
+    done: true,
+  },
+  {
+    id: 2,
+    text: '리액트 네이티브 기초 공부',
+    done: false,
+  },
+  {
+    id: 3,
+    text: '투두 리스트 만들어보기',
+    done: false,
+  },
+];
+
+export default dummyData;
