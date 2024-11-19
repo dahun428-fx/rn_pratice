@@ -3,8 +3,8 @@ import database from '@react-native-firebase/database';
 
 export const onRead = async (): Promise<Todo[]> => {
   try {
+    // const data = (await database().ref('/todos').once('value')).val();
     const data = (await database().ref('/todos').once('value')).val();
-
     if (!data) {
       throw new Error('No data found');
     }
