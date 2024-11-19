@@ -1,13 +1,15 @@
 import {Todo} from '../types/types';
-import {readTodosFromFile} from './onInsert';
+import database from '@react-native-firebase/database';
 
 export const onRead = async (): Promise<Todo[]> => {
   try {
-    const data = await readTodosFromFile(); // JSON 파일 경로
+    const data = (await database().ref('/todos').once('value')).val();
+
     if (!data) {
-      throw new Error('Failed to fetch data');
+      throw new Error('No data found');
     }
-    return data;
+    // Firebase 데이터는 객체 형태로 반환되므로 배열로 변환
+    return Object.values(data) as Todo[];
   } catch (error) {
     console.error('Error fetching todos:', error);
     return [];

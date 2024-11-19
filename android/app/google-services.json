@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "97219067788",
+    "project_id": "rnclean-b226c",
+    "storage_bucket": "rnclean-b226c.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:97219067788:android:aaf34d084949ecc60560a9",
+        "android_client_info": {
+          "package_name": "com.demo_clean"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDTWiK_HR1Cb9yl0KLgBZeXo2JvBA7jGlE"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
