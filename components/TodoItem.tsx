@@ -1,14 +1,26 @@
-import {View, Text, StyleSheet, Image} from 'react-native';
+import {View, Text, StyleSheet, Image, TouchableOpacity} from 'react-native';
 import React from 'react';
 import {Todo} from './types/types';
-
-export default function TodoItem({id, done, text}: Todo) {
+type Props = {
+  todo: Todo;
+  onToggle?: (id: string) => void;
+};
+export default function TodoItem({todo, onToggle}: Props) {
+  const {done, text, id} = todo;
   const doneIcon = require('./assets/icons/check_white/check_white.png');
   return (
     <View style={styles.item}>
-      <View style={[styles.circle, done && styles.filled]}>
-        {done && <Image source={doneIcon} />}
-      </View>
+      <TouchableOpacity
+        onPress={() => {
+          if (!id) {
+            return;
+          }
+          onToggle?.(String(id));
+        }}>
+        <View style={[styles.circle, done && styles.filled]}>
+          {done && <Image source={doneIcon} />}
+        </View>
+      </TouchableOpacity>
       <Text style={[styles.item, done && styles.lineThrough]}>{text}</Text>
     </View>
   );

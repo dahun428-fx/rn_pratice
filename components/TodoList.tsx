@@ -5,17 +5,18 @@ import TodoItem from './TodoItem';
 
 type Props = {
   todos: Todo[];
+  onToggle?: (id: string) => void;
 };
 const Seperator = () => {
   return <View style={styles.seperator} />;
 };
-export default function TodoList({todos}: Props) {
+export default function TodoList({todos, onToggle}: Props) {
   return (
     <FlatList
       style={styles.list}
       data={todos}
-      renderItem={({item}) => <TodoItem {...item} />}
-      keyExtractor={item => item.id.toString()}
+      renderItem={({item}) => <TodoItem todo={item} onToggle={onToggle} />}
+      keyExtractor={item => item.id?.toString() ?? ''}
       ItemSeparatorComponent={Seperator}
     />
   );

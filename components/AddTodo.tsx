@@ -20,12 +20,19 @@ const TodoButton = () => {
   );
 };
 
-export default function AddTodo() {
+type Props = {
+  onInsert: (text: string) => Promise<void>;
+};
+
+export default function AddTodo({onInsert}: Props) {
   const [text, setText] = useState('');
 
-  const onPress = () => {
-    setText('');
-    Keyboard.dismiss();
+  const onPress = async () => {
+    if (text.trim() !== '') {
+      await onInsert(text);
+      setText('');
+      Keyboard.dismiss();
+    }
   };
 
   const placeholderText = '할일을 입력하세요.';
@@ -39,6 +46,7 @@ export default function AddTodo() {
         onChangeText={setText}
         onSubmitEditing={onPress}
         returnKeyType="done"
+        submitBehavior="blurAndSubmit" // 엔터 키 동작 정의
       />
       {Platform.select({
         ios: (

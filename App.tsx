@@ -9,22 +9,24 @@ import {
   StyleSheet,
 } from 'react-native';
 import TodoList from './components/TodoList';
-import {onRead} from './components/data/onRead';
+import {onReadRealTime} from './components/data/onRead';
 import {Todo} from './components/types/types';
-import dummyData from './components/data/Todo_dummy';
+import {onInsert} from './components/data/onInsert';
+import {onToggle} from './components/data/onUpdate';
 
 export default function App() {
   const [todos, setTodos] = useState<Todo[]>([]);
 
   useEffect(() => {
-    const initializeApp = async () => {
-      const datas = await onRead(); // 데이터 확인
-      // const datas = dummyData; // 데이터 확인
-      console.log('Loaded todos:', datas);
-      setTodos(datas);
-    };
+    // Firestore 실시간 리스너 시작
+    const unsubscribe = onReadRealTime(updatedTodos => {
+      setTodos(updatedTodos); // 업데이트된 데이터를 상태에 저장
+    });
 
-    initializeApp();
+    // 컴포넌트 언마운트 시 리스너 해제
+    return () => {
+      unsubscribe();
+    };
   }, []);
 
   return (
@@ -36,8 +38,8 @@ export default function App() {
         })}
         style={styles.avoid}>
         <DateHead />
-        {todos ? <TodoList todos={todos} /> : <Empty />}
-        <AddTodo />
+        {todos ? <TodoList todos={todos} onToggle={onToggle} /> : <Empty />}
+        <AddTodo onInsert={onInsert} />
       </KeyboardAvoidingView>
     </SafeAreaView>
   );
